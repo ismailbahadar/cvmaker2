@@ -1,0 +1,61 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default Deny All
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        (request.auth.token.email == "zakatushrchitral@gmail.com" && request.auth.token.email_verified == true) ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Admin role collection
+    match /admins/{adminId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    // User profile documents
+    match /users/{userId} {
+      allow get: if isOwner(userId) || isAdmin();
+      allow list: if isAdmin();
+      allow create: if isOwner(userId) && isValidId(userId);
+      allow update: if (isOwner(userId) || isAdmin()) && isValidId(userId);
+      allow delete: if isOwner(userId) || isAdmin();
+
+      // User's Resumes subcollection
+      match /resumes/{resumeId} {
+        allow get: if isOwner(userId) || isAdmin();
+        allow list: if isOwner(userId) || isAdmin();
+        allow create: if (isOwner(userId) || isAdmin()) && isValidId(resumeId);
+        allow update: if (isOwner(userId) || isAdmin()) && isValidId(resumeId);
+        allow delete: if isOwner(userId) || isAdmin();
+      }
+
+      // User's Cover Letters subcollection
+      match /coverLetters/{coverLetterId} {
+        allow get: if isOwner(userId) || isAdmin();
+        allow list: if isOwner(userId) || isAdmin();
+        allow create: if (isOwner(userId) || isAdmin()) && isValidId(coverLetterId);
+        allow update: if (isOwner(userId) || isAdmin()) && isValidId(coverLetterId);
+        allow delete: if isOwner(userId) || isAdmin();
+      }
+    }
+  }
+}

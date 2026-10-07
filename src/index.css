@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@layer base {
+  @media print {
+    body * {
+      visibility: hidden;
+    }
+
+    #resume-preview-document,
+    #resume-preview-document *,
+    #cover-letter-preview,
+    #cover-letter-preview * {
+      visibility: visible;
+    }
+
+    #resume-preview-document,
+    #cover-letter-preview {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100% !important;
+      min-height: 100% !important;
+      box-shadow: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    @page {
+      size: A4 portrait;
+      margin: 10mm;
+    }
+  }
+}
+
+/* Hide scrollbars for clean tab overflow */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Urdu Noor-e-Nastaleeq typography styling */
+.font-nastaliq {
+  font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', 'Noore Huda', 'Nafees Nastaleeq', 'Urdu Typesetting', serif;
+  line-height: 2.2 !important;
+}
+
+.font-nastaliq h1,
+.font-nastaliq h2,
+.font-nastaliq h3,
+.font-nastaliq h4,
+.font-nastaliq h5,
+.font-nastaliq p,
+.font-nastaliq span,
+.font-nastaliq div,
+.font-nastaliq li {
+  line-height: 2.1;
+}
+
+[dir="rtl"] {
+  text-align: right;
+  direction: rtl;
+}
+

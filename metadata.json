@@ -1,0 +1,8 @@
+{
+  "name": "Professional AI Resume & CV Builder",
+  "description": "Create job-winning resumes and CVs with professional templates, AI writing assistance, live A4 preview, and instant PDF download.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "User profile information and settings",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Unique user ID matching auth.uid"
+        },
+        "email": {
+          "type": "string",
+          "description": "User email address"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Display name of the user"
+        },
+        "photoURL": {
+          "type": "string",
+          "description": "Profile picture URL"
+        },
+        "role": {
+          "type": "string",
+          "enum": ["user", "admin"],
+          "description": "User role in the system"
+        },
+        "subscription": {
+          "type": "string",
+          "enum": ["free", "pro"],
+          "description": "User subscription tier"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "ISO timestamp of user creation"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "ISO timestamp of last update"
+        }
+      },
+      "required": ["userId", "email"]
+    },
+    "Resume": {
+      "title": "Resume Document",
+      "description": "Full resume configuration and data",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique resume ID"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Owner user ID"
+        },
+        "title": {
+          "type": "string",
+          "description": "Resume title name"
+        },
+        "templateId": {
+          "type": "string",
+          "description": "Active resume template ID"
+        },
+        "completionPercentage": {
+          "type": "number",
+          "description": "Completion progress percentage"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Creation timestamp"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Last update timestamp"
+        }
+      },
+      "required": ["id", "userId", "title", "templateId"]
+    },
+    "CoverLetter": {
+      "title": "Cover Letter Document",
+      "description": "Cover letter configuration and content",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique cover letter ID"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Owner user ID"
+        },
+        "title": {
+          "type": "string",
+          "description": "Cover letter title"
+        },
+        "jobTitle": {
+          "type": "string",
+          "description": "Target job title"
+        },
+        "company": {
+          "type": "string",
+          "description": "Target company name"
+        },
+        "recipientName": {
+          "type": "string",
+          "description": "Recipient contact person"
+        },
+        "content": {
+          "type": "string",
+          "description": "Letter body text"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Creation timestamp"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Last update timestamp"
+        }
+      },
+      "required": ["id", "userId", "title"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": {
+        "$ref": "User"
+      },
+      "description": "Private user profile document"
+    },
+    "/users/{userId}/resumes/{resumeId}": {
+      "schema": {
+        "$ref": "Resume"
+      },
+      "description": "Resumes created and managed by the user"
+    },
+    "/users/{userId}/coverLetters/{coverLetterId}": {
+      "schema": {
+        "$ref": "CoverLetter"
+      },
+      "description": "Cover letters created and managed by the user"
+    }
+  }
+}
